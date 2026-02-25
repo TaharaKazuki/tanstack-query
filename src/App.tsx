@@ -1,37 +1,33 @@
 import './App.css';
 
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import viteLogo from '/vite.svg';
+type Post = {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+};
 
-import reactLogo from './assets/react.svg';
+const fetchData = async (): Promise<Post> => {
+  const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+  return response.json();
+};
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { data, isPending, error } = useQuery({
+    queryKey: ['post'],
+    queryFn: fetchData,
+  });
+
+  if (isPending) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <h2>{data.title}</h2>
+      <p>{data.body}</p>
+    </div>
   );
 }
 
