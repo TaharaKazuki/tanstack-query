@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun add -d eslint-plugin-simple-import-sort eslint-plugin-unused-imports)",
+      "Bash(bun run lint)",
+      "Bash(bun eslint . --fix)",
+      "Bash(bun add -d prettier eslint-config-prettier eslint-plugin-prettier)",
+      "Bash(bun eslint src/main.tsx)",
+      "Bash(bun eslint .)",
+      "Bash(git add eslint.config.js .prettierrc .vscode/settings.json package.json bun.lock src/App.tsx src/main.tsx vite.config.ts)",
+      "Bash(git add eslint.config.js .prettierrc package.json bun.lock src/App.tsx src/main.tsx vite.config.ts)",
+      "Bash(git add -f .vscode/settings.json)",
+      "Bash(git commit:*)"
+    ]
+  }
+}
