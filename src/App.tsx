@@ -9,15 +9,21 @@ type Post = {
   body: string;
 };
 
-const fetchData = async (): Promise<Post> => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+const fetchPostsById = async (postId: number): Promise<Post> => {
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/posts/${postId}`,
+  );
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
   return response.json();
 };
 
 function App() {
+  const postId = 1;
   const { data, isPending, error } = useQuery({
-    queryKey: ['post'],
-    queryFn: fetchData,
+    queryKey: ['post', postId],
+    queryFn: () => fetchPostsById(postId),
   });
 
   if (isPending) return <p>Loading...</p>;
